@@ -1,0 +1,2278 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../multiusermimodetectors/">
+      
+      
+        <link rel="next" href="../Waterfilling/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>OFDM - Wireless Interview Guide</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../styles/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#orthogonal-frequency-division-multiplexing-ofdm" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Wireless Interview Guide" class="md-header__button md-logo" aria-label="Wireless Interview Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Wireless Interview Guide
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OFDM
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Wireless Interview Guide" class="md-nav__button md-logo" aria-label="Wireless Interview Guide" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Wireless Interview Guide
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Wireless Communications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Wireless Communications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Maxwells_equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Maxwell's Equation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fading_types_summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fading Channel Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shannon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shannon Capacity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../link_budget/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Link Budget
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modulation Techniques
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multiusermimodetectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MU-MIMO Detectors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    OFDM
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    OFDM
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-system-overview-block-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. System Overview &amp; Block Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-discrete-implementation-dftidft" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Discrete Implementation &amp; DFT/IDFT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-isi-and-cyclic-prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. ISI and Cyclic Prefix
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-inter-carrier-interference-ici" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Inter-Carrier Interference (ICI)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Inter-Carrier Interference (ICI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-ideal-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      a. Ideal Synchronization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-ici-due-to-frequency-offset" class="md-nav__link">
+    <span class="md-ellipsis">
+      b. ICI Due to Frequency Offset
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-ici-due-to-timing-offset" class="md-nav__link">
+    <span class="md-ellipsis">
+      c. ICI Due to Timing Offset
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-constellation-rotation-snr-degradation" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Constellation Rotation &amp; SNR Degradation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-peak-to-average-power-ratio-papr" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Peak-to-Average Power Ratio (PAPR)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-adaptive-loading-water-filling" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Adaptive Loading &amp; Water-Filling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-diversity-coding-equalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Diversity, Coding &amp; Equalization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-summary-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Summary Table
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-key-drawbacks-of-ofdm" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Key Drawbacks of OFDM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-ofdm-vs-vector-coding" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. OFDM vs. Vector Coding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-case-study-ieee-80211a-wifi" class="md-nav__link">
+    <span class="md-ellipsis">
+      12. Case Study: IEEE 802.11a (WiFi)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      13. References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Waterfilling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Waterfilling Concept
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ChannelEstimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OFDM Channel Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Channel_Equalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OFDM Channel Equalization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implementationImperfections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation Imperfactions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Estimation Theory
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Estimation Theory
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimation/mmse_ml.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MMSE and ML Estimators
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimation/kalman_filter.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kalman Filter
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimation/noise_models.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Noise Models
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Discrete Time Signal Processing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Discrete Time Signal Processing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/FT.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CTFT, DTFT, DFT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/dft_fft.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DFT and FFT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/circ_conv.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Circular Convolution
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/filters.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Filters (FIR/IIR,Polyphase)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/sampling.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sampling Theorem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    RF Tranceiver Front-end
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            RF Tranceiver Front-end
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../RF_Tranceiver/Basics.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../RF_Tranceiver/BasicTranceiver_circuit.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../RF_Tranceiver/ReceiverArch.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Receiver Arch.
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../RF_Tranceiver/I_Q_Inbalance.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    I-Q Inbalance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../RF_Tranceiver/phase_noise.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Phase Noise
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../RF_Tranceiver/SSBvsDSB.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SSB vs DSB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../RF_Tranceiver/Sparameters.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Impedence Matching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Measurement and Test
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Measurement and Test
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/RF_WLAN_Measurement_Overview.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RF Measurment Overview
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/spectrum_analyzer.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Spectrum Analyzer
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/evm_vs_modulation.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    EVM vs Modulation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/active_probe.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Active vs Passive Probe
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Wi-Fi Standards
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Wi-Fi Standards
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wifi/standards_overview.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    802.11a/b/g/n/ac/ax Summary
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wifi/ofdma_mu_mimo.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OFDMA & MU-MIMO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wifi/uplink_downlink.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Uplink/Downlink Scheduling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Programming
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Programming
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/CPP_Basics.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CPP Basic Concepts
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/stackvsheap.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Stack vs Heap
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/dict_CPP.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CPP vs Python Elements
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../programming/programming_progress.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Coding Practice
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Interviw Questions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Interviw Questions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../InterviewQuestions/interview_rf_basic_questions.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Basic RF QUestion
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Common Interview Questions
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Common Interview Questions
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../InterviewQuestions/FAQTOPICS.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Common Interview Topics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../InterviewQuestions/Top_Questions.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Top Questions (Glassdoor)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quiz.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quiz
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../progress.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Progress Tracker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-system-overview-block-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. System Overview &amp; Block Diagram
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-discrete-implementation-dftidft" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Discrete Implementation &amp; DFT/IDFT
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-isi-and-cyclic-prefix" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. ISI and Cyclic Prefix
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-inter-carrier-interference-ici" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Inter-Carrier Interference (ICI)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Inter-Carrier Interference (ICI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-ideal-synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      a. Ideal Synchronization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-ici-due-to-frequency-offset" class="md-nav__link">
+    <span class="md-ellipsis">
+      b. ICI Due to Frequency Offset
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-ici-due-to-timing-offset" class="md-nav__link">
+    <span class="md-ellipsis">
+      c. ICI Due to Timing Offset
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-constellation-rotation-snr-degradation" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Constellation Rotation &amp; SNR Degradation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-peak-to-average-power-ratio-papr" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Peak-to-Average Power Ratio (PAPR)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-adaptive-loading-water-filling" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Adaptive Loading &amp; Water-Filling
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-diversity-coding-equalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      8. Diversity, Coding &amp; Equalization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-summary-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      9. Summary Table
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-key-drawbacks-of-ofdm" class="md-nav__link">
+    <span class="md-ellipsis">
+      10. Key Drawbacks of OFDM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-ofdm-vs-vector-coding" class="md-nav__link">
+    <span class="md-ellipsis">
+      11. OFDM vs. Vector Coding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-case-study-ieee-80211a-wifi" class="md-nav__link">
+    <span class="md-ellipsis">
+      12. Case Study: IEEE 802.11a (WiFi)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      13. References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="orthogonal-frequency-division-multiplexing-ofdm">Orthogonal Frequency Division Multiplexing (OFDM)</h1>
+<hr />
+<h2 id="1-system-overview-block-diagram">1. System Overview &amp; Block Diagram</h2>
+<p><img alt="OFDM Block Diagram" src="https://upload.wikimedia.org/wikipedia/commons/4/45/OFDM_system_diagram.png" /></p>
+<ul>
+<li><strong>OFDM</strong> splits total bandwidth <span class="arithmatex">\(B\)</span> into <span class="arithmatex">\(N\)</span> narrow, orthogonal subcarriers.</li>
+<li>Each subcarrier transmits a low-rate QAM/PSK symbol.</li>
+<li><strong>Subcarrier spacing:</strong> <span class="arithmatex">\(\Delta f = \frac{1}{T}\)</span>, where <span class="arithmatex">\(T\)</span> = useful OFDM symbol duration (without cyclic prefix).</li>
+</ul>
+<p><strong>Time-domain OFDM symbol</strong> (without CP):</p>
+<div class="arithmatex">\[
+s[n] = \sum_{k=0}^{N-1} S_k \exp\left(j2\pi \frac{k n}{N}\right), \quad n = 0, 1, ..., N-1
+\]</div>
+<hr />
+<h2 id="2-discrete-implementation-dftidft">2. Discrete Implementation &amp; DFT/IDFT</h2>
+<ul>
+<li><strong>IFFT:</strong> Converts frequency domain QAM symbols to time domain OFDM symbol.</li>
+<li><strong>FFT:</strong> At receiver, recovers subcarrier symbols.</li>
+<li><strong>Cyclic prefix (CP):</strong> Appends last <span class="arithmatex">\(L_{cp}\)</span> samples of each OFDM symbol to its front.</li>
+</ul>
+<p><strong>DFT Properties:</strong></p>
+<ul>
+<li><strong>DFT:</strong> <span class="arithmatex">\(X[i] = \frac{1}{\sqrt{N}} \sum_{n=0}^{N-1} x[n] e^{-j2\pi n i / N}\)</span></li>
+<li><strong>IDFT:</strong> <span class="arithmatex">\(x[n] = \frac{1}{\sqrt{N}} \sum_{i=0}^{N-1} X[i] e^{j2\pi n i / N}\)</span></li>
+<li><strong>Circular convolution:</strong> In frequency, becomes pointwise multiplication.</li>
+</ul>
+<hr />
+<h2 id="3-isi-and-cyclic-prefix">3. ISI and Cyclic Prefix</h2>
+<ul>
+<li>
+<p><strong>ISI (Inter-Symbol Interference)</strong> occurs in frequency-selective fading.</p>
+</li>
+<li>
+<p><strong>Cyclic Prefix:</strong></p>
+</li>
+<li>
+<p>If <span class="arithmatex">\(L_{cp} \geq L_{ch}\)</span> (channel length), linear convolution becomes circular, eliminating ISI.</p>
+</li>
+<li>
+<p><strong>Received symbol after FFT:</strong></p>
+</li>
+</ul>
+<p>$$
+  Y_k = H_k S_k + W_k
+  $$</p>
+<p>Where <span class="arithmatex">\(H_k\)</span> = channel response at subcarrier <span class="arithmatex">\(k\)</span>, <span class="arithmatex">\(W_k\)</span> = noise.</p>
+<ul>
+<li><strong>Spectral efficiency penalty:</strong> CP overhead reduces net data rate by <span class="arithmatex">\(N/(N + L_{cp})\)</span>.</li>
+</ul>
+<hr />
+<h2 id="4-inter-carrier-interference-ici">4. Inter-Carrier Interference (ICI)</h2>
+<h3 id="a-ideal-synchronization">a. Ideal Synchronization</h3>
+<ul>
+<li>Subcarriers are orthogonal:</li>
+</ul>
+<p>$$
+  \frac{1}{N} \sum_{n=0}^{N-1} e^{j2\pi (k-l)n/N} = \delta_{kl}
+  $$
+* No ICI when time/frequency perfectly aligned.</p>
+<h3 id="b-ici-due-to-frequency-offset">b. ICI Due to Frequency Offset</h3>
+<ul>
+<li>Frequency offset (<span class="arithmatex">\(\epsilon\)</span>, normalized to subcarrier spacing):</li>
+</ul>
+<p>$$
+  r[n] = s[n] e^{j2\pi \epsilon n / N}
+  $$
+* After FFT:</p>
+<p>$$
+  Y_k = \sum_{l=0}^{N-1} S_l \cdot \mathrm{ICI}(k, l, \epsilon)
+  $$</p>
+<p>with</p>
+<p>$$
+  \mathrm{ICI}(k, l, \epsilon) = \frac{\sin(\pi (l - k + \epsilon))}{N \sin \left( \frac{\pi}{N}(l - k + \epsilon) \right)} \exp \left( j\pi \frac{N-1}{N}(l - k + \epsilon) \right)
+  $$
+* <strong>Effect:</strong> Frequency offset causes energy leakage (ICI), rotating/distorting constellation points.</p>
+<h3 id="c-ici-due-to-timing-offset">c. ICI Due to Timing Offset</h3>
+<ul>
+<li>Timing offset (<span class="arithmatex">\(\tau\)</span>):</li>
+</ul>
+<p>$$
+  r[n] = s[n-\tau]
+  $$</p>
+<p>$$
+  Y_k = S_k e^{-j2\pi k \tau / N} + \text{ICI terms}
+  $$
+* <strong>If <span class="arithmatex">\(\tau &lt; L_{cp}\)</span>:</strong> Only phase rotation; no ISI.
+* <strong>If <span class="arithmatex">\(\tau \geq L_{cp}\)</span>:</strong> Both ISI and ICI appear.</p>
+<hr />
+<h2 id="5-constellation-rotation-snr-degradation">5. Constellation Rotation &amp; SNR Degradation</h2>
+<ul>
+<li><strong>Frequency offset (<span class="arithmatex">\(\epsilon\)</span>)</strong>: Rotates constellation by <span class="arithmatex">\(2\pi \epsilon\)</span> per symbol.</li>
+<li><strong>Timing offset (<span class="arithmatex">\(\tau\)</span>)</strong>: Rotates constellation by <span class="arithmatex">\(2\pi k \tau / N\)</span> per subcarrier.</li>
+<li>Both effects <strong>increase error rate and reduce SNR</strong>.</li>
+</ul>
+<hr />
+<h2 id="6-peak-to-average-power-ratio-papr">6. Peak-to-Average Power Ratio (PAPR)</h2>
+<div class="arithmatex">\[
+\mathrm{PAPR} = \frac{\max |s[n]|^2}{\mathbb{E}[|s[n]|^2]}
+\]</div>
+<ul>
+<li>OFDM signals have <strong>high PAPR</strong> (up to <span class="arithmatex">\(N\)</span> for <span class="arithmatex">\(N\)</span> subcarriers).</li>
+<li>Requires <strong>linear power amplifiers</strong>, reducing power efficiency.</li>
+<li><strong>Mitigation:</strong> Clipping, peak cancellation, special coding, etc.</li>
+</ul>
+<hr />
+<h2 id="7-adaptive-loading-water-filling">7. Adaptive Loading &amp; Water-Filling</h2>
+<ul>
+<li><strong>Water-filling algorithm</strong>: Allocates power/rate based on subcarrier SNR <span class="arithmatex">\(\gamma_i\)</span>:</li>
+</ul>
+<div class="arithmatex">\[
+P_i = \left( \frac{1}{\gamma_0} - \frac{N_0 B_N}{|H_i|^2} \right)^+
+\]</div>
+<div class="arithmatex">\[
+C = \sum_{i=1}^N B_N \log_2 \left(1 + \frac{|H_i|^2 P_i}{N_0 B_N}\right)
+\]</div>
+<ul>
+<li>Improves overall rate in frequency-selective channels.</li>
+</ul>
+<hr />
+<h2 id="8-diversity-coding-equalization">8. Diversity, Coding &amp; Equalization</h2>
+<ul>
+<li><strong>Channel coding</strong> and <strong>interleaving</strong> spread errors over subcarriers (frequency diversity).</li>
+<li><strong>Precoding</strong> and <strong>equalization</strong> can compensate for fading, at the cost of complexity and required channel state information (CSI).</li>
+</ul>
+<hr />
+<h2 id="9-summary-table">9. Summary Table</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Effect/Formula</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OFDM Signal</td>
+<td><span class="arithmatex">\(s[n] = \sum_k S_k e^{j2\pi k n / N}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ISI Elimination</td>
+<td>CP: <span class="arithmatex">\(L_{cp} \geq L_{ch}\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ICI from Freq Offset</td>
+<td>Increases with offset; see formula above</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ICI from Timing Offset</td>
+<td>Phase shift; ISI if offset <span class="arithmatex">\(&gt; CP\)</span></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PAPR</td>
+<td>High (<span class="arithmatex">\(\sim N\)</span>); reduces PA efficiency</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Water-filling</td>
+<td>( P_i = \left( \frac{1}{\gamma_0} - \frac{N_0 B_N}{</td>
+<td>H_i</td>
+<td>^2} \right)^+ )</td>
+</tr>
+<tr>
+<td>Constellation Effect</td>
+<td>Rotated/distorted; higher error rates</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-key-drawbacks-of-ofdm">10. Key Drawbacks of OFDM</h2>
+<table>
+<thead>
+<tr>
+<th>Drawback</th>
+<th>Explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>High PAPR</strong></td>
+<td>Requires highly linear, less efficient amplifiers.</td>
+</tr>
+<tr>
+<td><strong>Sensitivity to Freq/Phase Errors</strong></td>
+<td>Frequency/phase offset and Doppler cause ICI, degrade orthogonality.</td>
+</tr>
+<tr>
+<td><strong>CP Overhead</strong></td>
+<td>Reduces net spectral efficiency due to redundant samples.</td>
+</tr>
+<tr>
+<td><strong>Complexity</strong></td>
+<td>Needs FFT/IFFT, accurate synchronization, and digital processing.</td>
+</tr>
+<tr>
+<td><strong>Nonlinearity Sensitivity</strong></td>
+<td>High PAPR increases distortion from analog/RF components.</td>
+</tr>
+<tr>
+<td><strong>Spectral Leakage</strong></td>
+<td>Significant sidelobes increase out-of-band emissions unless windowing/filtering is used.</td>
+</tr>
+<tr>
+<td><strong>Channel Estimation Required</strong></td>
+<td>Accurate and fast channel tracking needed for mobility/fast fading.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="11-ofdm-vs-vector-coding">11. OFDM vs. Vector Coding</h2>
+<ul>
+<li>
+<p><strong>Vector Coding (VC)</strong>: SVD-based decomposition for ISI-free parallel channels.</p>
+</li>
+<li>
+<p>Theoretically optimal for ISI elimination, but requires full channel knowledge and is computationally expensive.</p>
+</li>
+<li>Not practical for real-time wireless systems.</li>
+<li><strong>OFDM</strong>: Efficient, does not need full CSI at transmitter, uses CP for simple ISI removal, widely adopted.</li>
+</ul>
+<hr />
+<h2 id="12-case-study-ieee-80211a-wifi">12. Case Study: IEEE 802.11a (WiFi)</h2>
+<ul>
+<li><strong>Bandwidth</strong>: 20 MHz (5 GHz band)</li>
+<li><strong>Subcarriers</strong>: 64 (48 data, 4 pilots, 12 null)</li>
+<li><strong>CP Length</strong>: 16 samples (<span class="arithmatex">\(\approx 0.8\,\mu\text{s}\)</span>)</li>
+<li><strong>OFDM Symbol Time</strong>: 4 <span class="arithmatex">\(\mu\)</span>s (80 samples at 20 MHz)</li>
+<li><strong>Data Rates</strong>: 6–54 Mbps (varies with modulation and coding)</li>
+<li><strong>Modulations</strong>: BPSK, QPSK, 16QAM, 64QAM</li>
+<li><strong>Coding rates</strong>: 1/2, 2/3, 3/4 (convolutional)</li>
+</ul>
+<hr />
+<h2 id="13-references">13. References</h2>
+<ul>
+<li>D. Tse, P. Viswanath, <em>Fundamentals of Wireless Communication</em></li>
+<li>J. Proakis, <em>Digital Communications</em></li>
+<li><a href="https://en.wikipedia.org/wiki/Orthogonal_frequency-division_multiplexing">Wikipedia: OFDM</a></li>
+</ul>
+<hr />
+<p>_Last updated: June 06, 2025</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
