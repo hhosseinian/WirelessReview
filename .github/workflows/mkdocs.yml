@@ -2,7 +2,7 @@ name: Deploy MkDocs with Mermaid Diagrams
 
 on:
   push:
-    branches: [main]
+    branches: [main]  # or 'master'
 
 jobs:
   deploy:
@@ -21,11 +21,15 @@ jobs:
         run: |
           pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin
 
-      - name: Configure Git for GitHub Pages
-        run: |
-          git config --global user.email "hh9af@virginia.edu"
-          git config --global user.name "hhosseinian"
-          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/hhosseinian/WirelessReview
-
       - name: Deploy to GitHub Pages
-        run: mkdocs gh-deploy --force
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git config --global user.email "your@email.com"
+          git config --global user.name "Your Name"
+
+          # Override default remote with PAT-based URL
+          git remote set-url origin https://x-access-token:$GH_TOKEN@github.com/hhosseinian/WirelessReview
+
+          # Deploy using MkDocs
+          mkdocs gh-deploy --force --remote-name origin
