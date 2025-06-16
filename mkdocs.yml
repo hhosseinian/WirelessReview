@@ -21,12 +21,19 @@ nav:
 extra_css:
   - styles/extra.css
 
+
 markdown_extensions:
   - admonition
   - codehilite
+  - attr_list
+  - md_in_html
   - pymdownx.superfences
   - pymdownx.arithmatex:
       generic: true
+  - pymdownx.blocks
+  - pymdownx.grid_tables
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.snippets
   - attr_list
   - pymdownx.tasklist

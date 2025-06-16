@@ -1,0 +1,4 @@
+/* Make top-level nav (level 0) items bold */
+.md-nav__item--nested > .md-nav__link {
+  font-weight: bold;
+}
