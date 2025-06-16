@@ -20,6 +20,7 @@ jobs:
       - name: Install MkDocs and plugins
         run: |
           pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin
-
       - name: Deploy to GitHub Pages
         run: mkdocs gh-deploy --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
