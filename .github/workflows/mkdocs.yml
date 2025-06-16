@@ -1,25 +1,35 @@
-name: Deploy MkDocs with Mermaid Diagrams
+name: Deploy MkDocs to GitHub Pages
 
 on:
   push:
-    branches: [main]  # or 'master' if that's your default
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Install MkDocs and plugins
+      - name: Install dependencies
         run: |
           pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin
 
+      - name: Build site
+        run: mkdocs build --clean
+
       - name: Deploy to GitHub Pages
-        run: mkdocs gh-deploy --force
+        run: |
+          cd site
+          git init
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git remote add origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/hhosseinian/WirelessReview.git
+          git checkout -b gh-pages
+          git add .
+          git commit -m "MkDocs site deployment"
+          git push --force origin gh-pages
