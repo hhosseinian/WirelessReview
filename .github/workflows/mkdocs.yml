@@ -20,7 +20,12 @@ jobs:
       - name: Install MkDocs and plugins
         run: |
           pip install mkdocs mkdocs-material mkdocs-mermaid2-plugin
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/hhosseinian/WirelessReview
+
       - name: Deploy to GitHub Pages
         run: mkdocs gh-deploy --force
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
