@@ -30,12 +30,7 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.arithmatex:
       generic: true
-  - pymdownx.blocks
-  - pymdownx.grid_tables
-  - pymdownx.tabbed:
-      alternate_style: true
   - pymdownx.snippets
-  - attr_list
   - pymdownx.tasklist
 plugins:
   - search
