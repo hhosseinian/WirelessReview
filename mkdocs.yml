@@ -18,6 +18,12 @@ nav:
       - OFDM Channel Estimation: wireless/ChannelEstimation.md
       - OFDM Channel Equalization: wireless/Channel_Equalization.md
       - Implementation Imperfactions: wireless/implementationImperfections.md
+  - Discrete Time Signal Processing:
+      - CTFT, DTFT, DFT: dsp/FT.md
+      - DFT and FFT: dsp/dft_fft.md
+      - Circular Convolution: dsp/circ_conv.md
+      - Filters (FIR/IIR,Polyphase): dsp/filters.md
+      - Sampling Theorem: dsp/sampling.md
 extra_css:
   - styles/extra.css
 
