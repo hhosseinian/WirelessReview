@@ -5,7 +5,7 @@ theme:
 
 nav:
   - Home: index.md
-
+  - Quiz: quiz.html
   - Wireless Communications:
       - Maxwell's Equation: wireless/Maxwells_equations.md
       - Fading Channel Types: wireless/fading_types_summary.md
