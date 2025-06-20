@@ -19,28 +19,20 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
-  <script>
-    // TODO: Replace with your Firebase config
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-    };
+<script>
+  const container = document.getElementById("quiz-container");
 
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+  // Replace this with your actual Firebase Storage public URL
+  const quizDataURL = "https://firebasestorage.googleapis.com/v0/b/wirelessreview-7bdd0.firebasestorage.app/o/wireless%2Fwireless_questions_bank.json?alt=media&token=830885a0-6de5-46e6-851a-bea395f5960d";
 
-    const container = document.getElementById("quiz-container");
-
-    db.collection("quizzes").limit(5).get().then(snapshot => {
-      if (snapshot.empty) {
-        container.innerHTML = "No quiz data found.";
-        return;
-      }
+  fetch(quizDataURL)
+    .then(res => res.json())
+    .then(json => {
+      const questions = Array.isArray(json) ? json : Object.values(json);
 
       container.innerHTML = "";
-      snapshot.forEach((doc, index) => {
-        const data = doc.data();
+
+      questions.forEach((data, index) => {
         const div = document.createElement("div");
         div.className = "question";
         div.innerHTML = `<strong>Q${index + 1}: ${data.question}</strong><br/>`;
@@ -67,10 +59,12 @@
 
         container.appendChild(div);
       });
-    }).catch(err => {
+    })
+    .catch(err => {
       container.innerHTML = "Error loading quiz.";
       console.error(err);
     });
-  </script>
+</script>
+
 </body>
 </html>
