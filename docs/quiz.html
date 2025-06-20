@@ -16,8 +16,11 @@
   <h1>Wireless Quiz</h1>
   <div id="quiz-container">Loading quiz...</div>
 
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+<!-- Use non-module Firebase v10 SDK (Compatible with <script>) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
 
 <script>
   const container = document.getElementById("quiz-container");
