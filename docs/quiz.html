@@ -1,23 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Quiz Page</title>
+  <meta charset="UTF-8" />
+  <title>Wireless Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: sans-serif; max-width: 700px; margin: auto; padding: 1rem; }
+    .question { margin-bottom: 1.5rem; }
+    .option { margin: 0.5rem 0; }
+    .correct { color: green; font-weight: bold; }
+    .wrong { color: red; font-weight: bold; }
+  </style>
 </head>
 <body>
-  <div id="quiz"></div>
+  <h1>Wireless Quiz</h1>
+  <div id="quiz-container">Loading quiz...</div>
 
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+
   <script>
+    // TODO: Replace with your Firebase config
     const firebaseConfig = {
-      apiKey: "...",
-      authDomain: "...",
-      projectId: "...",
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
     };
+
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // your quiz logic here
+    const container = document.getElementById("quiz-container");
+
+    db.collection("quizzes").limit(5).get().then(snapshot => {
+      if (snapshot.empty) {
+        container.innerHTML = "No quiz data found.";
+        return;
+      }
+
+      container.innerHTML = "";
+      snapshot.forEach((doc, index) => {
+        const data = doc.data();
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `<strong>Q${index + 1}: ${data.question}</strong><br/>`;
+
+        data.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.innerText = opt;
+          btn.className = "option";
+          btn.onclick = () => {
+            if (i === data.answer) {
+              btn.classList.add("correct");
+              btn.innerText += " ✔";
+            } else {
+              btn.classList.add("wrong");
+              btn.innerText += " ✖";
+            }
+            [...div.querySelectorAll("button")].forEach(b => b.disabled = true);
+            const exp = document.createElement("div");
+            exp.innerHTML = `<em>${data.explanation}</em>`;
+            div.appendChild(exp);
+          };
+          div.appendChild(btn);
+        });
+
+        container.appendChild(div);
+      });
+    }).catch(err => {
+      container.innerHTML = "Error loading quiz.";
+      console.error(err);
+    });
   </script>
 </body>
 </html>
