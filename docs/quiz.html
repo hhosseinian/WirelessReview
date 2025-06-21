@@ -1,94 +1,432 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-  <title>Wireless Quiz</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 1rem; }
-    .question { margin-bottom: 2rem; }
-    .option { margin: 0.5rem 0; display: block; }
-    .correct { color: green; font-weight: bold; }
-    .wrong { color: red; font-weight: bold; }
-    .loading { color: gray; font-style: italic; }
-  </style>
-</head>
-<body>
-  <h1>Wireless Quiz</h1>
-  <div id="quiz-container" class="loading">Loading quiz...</div>
+<html lang="en">
 
-<!-- Firebase SDKs (Compat versions for standard script usage) -->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wireless Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-cpp.min.js"></script>
+
+<!-- Firebase SDKs (Compat versions for script usage) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
 
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBqRQ7_vjmuJgeZ7nE-8m_E8geHEFlvw_0",
+    authDomain: "wirelessreview-7bdd0.firebaseapp.com",
+    projectId: "wirelessreview-7bdd0",
+    storageBucket: "wirelessreview-7bdd0.appspot.com",
+    messagingSenderId: "502460506074",
+    appId: "1:502460506074:web:e7d8935f219b4239f82ae3"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const storage = firebase.storage();
+</script>
+
+</head>
+
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <header class="bg-blue-600 text-white py-4 shadow">
+    <div class="container mx-auto px-4">
+      <h1 class="text-2xl font-bold">Wireless Quiz</h1>
+    </div>
+  </header>
+
+  <main class="flex-1 container mx-auto px-4 py-10" id="main">
+    <div id="setup-screen">
+      <div class="max-w-xl mx-auto bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4 text-center">Select Topic and Filters</h2>
+        <div class="mb-4">
+          <label class="block mb-1 font-medium">Topic</label>
+          <select id="topic-select" class="w-full px-4 py-2 rounded border">
+            <option value="">-- Select Topic --</option>
+            <option value="Wireless Communications">Wireless Communications</option>
+            <option value="DSP">DSP</option>
+            <option value="Estimation Theory">Estimation Theory</option>
+            <option value="RF Transceiver">RF Transceiver</option>
+            <option value="Measurement Tools">Measurement Tools</option>
+            <option value="Programming">Programming</option>
+            <option value="Top Interview">Top Interview</option>
+          </select>
+        </div>
+        <div id="setup-topics" class="flex flex-wrap gap-2 mb-4"></div>
+        <select id="setup-difficulty" class="w-full mb-4 px-4 py-2 rounded border">
+          <option value="all">All Difficulties</option>
+        </select>
+        <button id="start-btn" class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Start
+          Quiz</button>
+      </div>
+    </div>
+
+    <div id="quiz-screen" class="hidden">
+      <div class="mb-6 text-center">
+        <p id="progress" class="text-sm text-gray-700 mb-2">Progress: 0 / 10</p>
+        <div class="w-full bg-gray-300 h-4 rounded">
+          <div id="progress-bar" class="bg-blue-600 h-4 rounded" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow p-6 max-w-2xl mx-auto">
+        <div class="flex justify-between items-center mb-4">
+          <h2 id="question" class="text-xl font-semibold">Loading question...</h2>
+          <div class="flex gap-2">
+            <button id="flag-btn" class="text-red-500 text-2xl hover:text-red-600" title="Report">⚐</button>
+            <button id="fav-btn" class="text-yellow-500 text-2xl hover:text-yellow-600" title="Favorite">☆</button>
+          </div>
+        </div>
+        <div id="meta" class="text-sm text-gray-500 italic mb-2 text-center"></div>
+        <ul id="choices" class="space-y-2 mb-6"></ul>
+        <div id="feedback" class="text-center text-lg font-medium mb-4"></div>
+        <div id="explanation" class="text-center text-gray-600 text-sm italic mb-6 hidden"></div>
+        <p class="text-center text-xs text-gray-500 mb-2">⏱ <span id="timer">45</span> seconds left</p>
+        <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <button id="show-answer" class="bg-gray-300 hover:bg-gray-400 text-black font-medium py-2 px-4 rounded">Show
+            Answer</button>
+          <button id="next-question"
+            class="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded">Next</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-200 text-center py-4 text-sm text-gray-600">
+    &copy; 2025 Wireless Interview Prep
+  </footer>
 
   <script>
-    // ✅ Firebase Config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBqRQ7_vjmuJgeZ7nE-8m_E8geHEFlvw_0",
-      authDomain: "wirelessreview-7bdd0.firebaseapp.com",
-      projectId: "wirelessreview-7bdd0",
-      storageBucket: "wirelessreview-7bdd0.firebasestorage.app",
-      messagingSenderId: "502460506074",
-      appId: "1:502460506074:web:e7d8935f219b4239f82ae3"
+    const TOPIC_TO_FILE = {
+      "Wireless Communications": "wireless_questions_bank.json",
+      "DSP": "dsp_questions_bank.json",
+      "Estimation Theory": "estimation_questions_bank.json",
+      "Measurement Tools": "measurement_tools_questions_bank.json",
+      "RF Transceiver": "RF_questions_bank.json",
+      "Programming": "CPP_Concepts_questions_bank.json",
+      "Top Interview": "Interview_questions_bank.json"
     };
 
-    // ✅ Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const storage = firebase.storage();
-    const container = document.getElementById("quiz-container");
+    // Leitner intervals and helpers
+    const LEITNER_INTERVALS = [1, 3, 7, 14, 30];
+    function isLeitnerDue(entry) {
+      if (!entry) return true; // Never seen before
+      if ((entry.repetitions) <= 1) return true; // Not practiced enough
+      if ((entry.level) <= 2) return true; // Still not mastered
+      // For level > 3 and repetitions > 3, use standard Leitner due
+      const LEITNER_INTERVALS = [1, 1, 3, 7, 14, 30];
+      const interval = LEITNER_INTERVALS[Math.max((entry.level || 1) - 1, 0)] || 1;
+      const last = new Date(entry.lastReviewed);
+      const now = new Date();
+      const nextDue = new Date(last.getTime() + interval * 24 * 60 * 60 * 1000);
+      return now >= nextDue;
+    }
 
-    // ✅ Authenticate Anonymously and Fetch JSON
-    auth.signInAnonymously().then(() => {
-      console.log("✅ Authenticated anonymously");
-      return storage.ref("wireless/wireless_questions_bank.json").getDownloadURL();
-    }).then(url => {
-      console.log("✅ Download URL:", url);
-      return fetch(url);
-    }).then(res => {
-      if (!res.ok) throw new Error("Fetch failed");
-      return res.json();
-    }).then(data => {
-      console.log("✅ Loaded JSON:", data);
-      renderQuiz([data]); // Or data if it's an array of questions
-    }).catch(err => {
-      console.error("❌ Error loading quiz:", err);
-      container.innerHTML = "<span class='wrong'>❌ Error loading quiz.</span>";
+    let allQuestions = [], questions = [], currentQuestion = 0, timerInterval;
+    const favorites = new Set(), wrongAnswers = new Set(), flagged = new Set(), attemptedQuestions = new Set(), progressMap = {};
+    let leitnerMap = {};
+
+    function loadUserProgressFromBackend() {
+      return fetch('http://localhost:3000/api/load/demo/progress')
+        .then(res => res.ok ? res.json() : Promise.resolve(null))
+        .then(progress => {
+          if (progress) {
+            (progress.favorites || []).forEach(id => favorites.add(id));
+            (progress.flagged || []).forEach(id => flagged.add(id));
+            (progress.wrongAnswers || []).forEach(id => wrongAnswers.add(id));
+            (progress.attemptedQuestions || []).forEach(id => attemptedQuestions.add(id));
+            leitnerMap = progress.leitner || {};
+          }
+        })
+        .catch(() => { });
+    }
+
+    function updateUserProgressOnBackend() {
+      const progress = {
+        username: "demo",
+        favorites: Array.from(favorites),
+        wrongAnswers: Array.from(wrongAnswers),
+        flagged: Array.from(flagged),
+        attemptedQuestions: Array.from(attemptedQuestions),
+        leitner: leitnerMap
+      };
+      fetch('http://localhost:3000/api/save/demo/progress', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(progress),
+      })
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to update progress.');
+        })
+        .catch(error => {
+          console.error('Error updating progress:', error);
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      await loadUserProgressFromBackend();
+
+      const topicSelect = document.getElementById("topic-select");
+      const topicContainer = document.getElementById("setup-topics");
+      const diffSelect = document.getElementById("setup-difficulty");
+
+      topicSelect.addEventListener("change", async () => {
+        const topicLabel = topicSelect.value;
+        const fileName = TOPIC_TO_FILE[topicLabel];
+        if (!fileName) return;
+
+        try {
+          const data = await fetch(`assets/${fileName}`).then(res => res.json());
+          allQuestions = data;
+
+          topicContainer.innerHTML = "";
+          const topics = [...new Set(data.map(q => q.topic))].filter(Boolean);
+          topics.forEach(topic => {
+            const label = document.createElement("label");
+            label.className = "flex items-center gap-2 text-sm";
+            label.innerHTML = `<input type='checkbox' value='${topic}'> <span>${topic}</span>`;
+            topicContainer.appendChild(label);
+          });
+
+          diffSelect.innerHTML = '<option value="all">All Difficulties</option>';
+          const difficulties = [...new Set(data.map(q => q.difficulty))].filter(Boolean);
+          difficulties.forEach(diff => {
+            const opt = document.createElement("option");
+            opt.value = diff;
+            opt.textContent = diff;
+            diffSelect.appendChild(opt);
+          });
+
+        } catch (err) {
+          console.error("Failed to load quiz from assets:", fileName, err);
+        }
+      });
+
+      document.getElementById("start-btn").onclick = () => {
+        const nextBtn = document.getElementById("next-question");
+        const showAnswerBtn = document.getElementById("show-answer");
+
+        nextBtn.onclick = () => {
+          const q = questions[currentQuestion];
+          const selected = document.querySelector("input[name='choice']:checked");
+          const explanationElem = document.getElementById("explanation");
+
+          if (!selected) {
+            document.getElementById("feedback").textContent = "❗ Please select an answer before continuing.";
+            document.getElementById("feedback").className = "text-yellow-600 text-center font-semibold mb-4";
+            return;
+          }
+
+          const selectedIndex = parseInt(selected.value);
+          const correct = q.answer;
+          const correctAnswerText = (q.options || q.choices)[correct];
+
+          const items = document.querySelectorAll("li span");
+          items.forEach((item, index) => {
+            item.classList.remove("bg-green-200", "bg-red-200");
+            if (index === correct) item.classList.add("bg-green-200");
+            if (index === selectedIndex && selectedIndex !== correct) item.classList.add("bg-red-200");
+          });
+
+          document.getElementById("feedback").textContent = selectedIndex === correct ? "✅ Correct!" : `❌ Incorrect. Correct answer: ${correctAnswerText}`;
+          document.getElementById("feedback").className = selectedIndex === correct ? "text-green-600 text-center font-semibold mb-4" : "text-red-600 text-center font-semibold mb-4";
+          explanationElem.textContent = q.explanation || "";
+          explanationElem.classList.remove("hidden");
+
+          attemptedQuestions.add(q.id);
+          if (selectedIndex !== correct) wrongAnswers.add(q.id);
+          progressMap[q.topic] = ((progressMap[q.topic] || 0) + 1);
+
+          // Leitner: update progress
+          updateLeitner(q.id, selectedIndex === correct);
+
+          setTimeout(() => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+              loadQuestion();
+            } else {
+              window.location.href = "progress.html";
+            }
+          }, 1500);
+        };
+        // "Show Answer" button click handler
+        showAnswerBtn.onclick = () => {
+          const q = questions[currentQuestion];
+          const correct = q.answer;
+          const correctAnswerText = (q.options || q.choices)[correct];
+          const items = document.querySelectorAll("li span");
+          items.forEach((item, index) => {
+            item.classList.remove("bg-green-200");
+            if (index === correct) item.classList.add("bg-green-200");
+          });
+
+          document.getElementById("feedback").textContent = `💡 The correct answer is: ${correctAnswerText}`;
+          document.getElementById("feedback").className = "text-blue-600 text-center font-semibold mb-4";
+          const explanationElem = document.getElementById("explanation");
+          explanationElem.textContent = q.explanation || "";
+          explanationElem.classList.remove("hidden");
+
+          // Disable "Next" for 10 seconds
+          const nextBtn = document.getElementById("next-question");
+          nextBtn.disabled = true;
+          let autoNextTimeout = setTimeout(() => {
+            nextBtn.disabled = false;
+            // Auto-advance if user hasn't pressed next
+            if (currentQuestion < questions.length - 1) {
+              currentQuestion++;
+              loadQuestion();
+            } else {
+              window.location.href = "progress.html";
+            }
+          }, 10000);
+
+          // If user presses "Next" before 10s, clear auto advance
+          nextBtn.onclick = () => {
+            clearTimeout(autoNextTimeout);
+            nextBtn.disabled = false;
+            if (currentQuestion < questions.length - 1) {
+              currentQuestion++;
+              loadQuestion();
+            } else {
+              window.location.href = "progress.html";
+            }
+          };
+        };
+        const selectedTopics = Array.from(document.querySelectorAll("#setup-topics input:checked")).map(el => el.value);
+        const selectedDifficulty = document.getElementById("setup-difficulty").value;
+
+        // Leitner logic for filtering
+        questions = (allQuestions || []).filter(q =>
+          (selectedTopics.length === 0 || selectedTopics.includes(q.topic)) &&
+          (selectedDifficulty === "all" || q.difficulty === selectedDifficulty) &&
+          isLeitnerDue(leitnerMap[q.id])
+        ).sort(() => 0.5 - Math.random()).slice(0, 10);
+
+        if (questions.length === 0) {
+          alert("No questions match your selected filters or Leitner due date.");
+          return;
+        }
+
+        document.getElementById("setup-screen").classList.add("hidden");
+        document.getElementById("quiz-screen").classList.remove("hidden");
+        updateChart();
+        loadQuestion();
+      };
+
+      // Add flag/favorite handlers with backend sync
+      document.getElementById("flag-btn").onclick = function () {
+        const q = questions[currentQuestion];
+        if (!q) return;
+        if (flagged.has(q.id)) {
+          flagged.delete(q.id);
+          this.textContent = "⚐";
+        } else {
+          flagged.add(q.id);
+          this.textContent = "⚑";
+        }
+        updateUserProgressOnBackend();
+      };
+
+      document.getElementById("fav-btn").onclick = function () {
+        const q = questions[currentQuestion];
+        if (!q) return;
+        if (favorites.has(q.id)) {
+          favorites.delete(q.id);
+          this.textContent = "☆";
+        } else {
+          favorites.add(q.id);
+          this.textContent = "★";
+        }
+        updateUserProgressOnBackend();
+      };
     });
 
-    // ✅ Render Quiz
-    function renderQuiz(questions) {
-      container.innerHTML = "";
-      questions.forEach((q, index) => {
-        const div = document.createElement("div");
-        div.className = "question";
-        div.innerHTML = `<strong>Q${index + 1}: ${q.question}</strong><br/>`;
-
-        q.options.forEach((opt, i) => {
-          const btn = document.createElement("button");
-          btn.innerText = opt;
-          btn.className = "option";
-          btn.onclick = () => {
-            if (i === q.answer) {
-              btn.classList.add("correct");
-              btn.innerText += " ✔";
-            } else {
-              btn.classList.add("wrong");
-              btn.innerText += " ✖";
-            }
-            [...div.querySelectorAll("button")].forEach(b => b.disabled = true);
-            const exp = document.createElement("div");
-            exp.innerHTML = `<em>${q.explanation}</em>`;
-            div.appendChild(exp);
-          };
-          div.appendChild(btn);
+    function updateChart() {
+      const labels = Object.keys(progressMap);
+      const data = labels.map(t => progressMap[t] || 0);
+      if (document.getElementById('topicChart')) {
+        new Chart(document.getElementById('topicChart'), {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{ label: '% Tried', data: data, backgroundColor: '#3b82f6' }]
+          },
+          options: { scales: { y: { beginAtZero: true, max: 100 } } }
         });
+      }
+    }
 
-        container.appendChild(div);
+    function updateProgress() {
+      const progressText = `Progress: ${currentQuestion + 1} / ${questions.length}`;
+      document.getElementById("progress").textContent = progressText;
+      const percent = Math.round(((currentQuestion + 1) / questions.length) * 100);
+      document.getElementById("progress-bar").style.width = percent + "%";
+    }
+
+    function startTimer() {
+      let timeLeft = 45;
+      document.getElementById("timer").textContent = timeLeft;
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").textContent = timeLeft;
+        if (timeLeft === 0) {
+          clearInterval(timerInterval);
+          document.getElementById("next-question").click();
+        }
+      }, 1000);
+    }
+
+    // Leitner progress update after answer
+    function updateLeitner(qid, wasCorrect) {
+      if (!leitnerMap[qid]) leitnerMap[qid] = { level: 1, repetitions: 0, lastReviewed: null };
+      const entry = leitnerMap[qid];
+      entry.repetitions += 1;
+      entry.lastReviewed = new Date().toISOString();
+      if (wasCorrect) {
+        entry.level = Math.min(entry.level + 1, LEITNER_INTERVALS.length);
+      } else {
+        entry.level = 1;
+      }
+      updateUserProgressOnBackend();
+    }
+
+    function loadQuestion() {
+      const q = questions[currentQuestion];
+      if (!q) return;
+
+      document.getElementById("question").innerHTML = marked.parse(q.question);
+      Prism.highlightAll();
+
+      // Leitner level display
+      const entry = leitnerMap[q.id];
+      const level = entry?.level || 1;
+      document.getElementById("meta").textContent = `Topic: ${q.topic || 'N/A'} | Difficulty: ${q.difficulty || 'N/A'} | Leitner Level: ${level}`;
+
+      const choicesElem = document.getElementById("choices");
+      choicesElem.innerHTML = "";
+      document.getElementById("feedback").textContent = "";
+      const explanationElem = document.getElementById("explanation");
+      explanationElem.classList.add("hidden");
+      explanationElem.textContent = "";
+      document.getElementById("fav-btn").textContent = favorites.has(q.id) ? "★" : "☆";
+      document.getElementById("flag-btn").textContent = flagged.has(q.id) ? "⚑" : "⚐";
+      (q.options || q.choices || []).forEach((choice, i) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<label class='flex items-center gap-2'><input type='radio' name='choice' value='${i}' class='peer hidden'><span class='px-4 py-2 border rounded cursor-pointer w-full peer-checked:bg-blue-100'>${choice}</span></label>`;
+        choicesElem.appendChild(li);
       });
+      updateProgress();
+      startTimer();
     }
   </script>
 </body>
+
 </html>
