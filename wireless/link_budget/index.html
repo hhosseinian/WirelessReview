@@ -1,0 +1,1188 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../shannon/">
+      
+      
+        <link rel="next" href="../modulation/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Link Budget - Wireless Review</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../styles/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#link-budget" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Wireless Review" class="md-header__button md-logo" aria-label="Wireless Review" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Wireless Review
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Link Budget
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Wireless Review" class="md-nav__button md-logo" aria-label="Wireless Review" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Wireless Review
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quiz.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quiz
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Wireless Communications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Wireless Communications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Maxwells_equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Maxwell's Equation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fading_types_summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fading Channel Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shannon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shannon Capacity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Link Budget
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Link Budget
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Definition:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameter Table
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Points
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modulation Techniques
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multiusermimodetectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MU-MIMO Detectors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ofdm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OFDM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Waterfilling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Waterfilling Concept
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ChannelEstimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OFDM Channel Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Channel_Equalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OFDM Channel Equalization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implementationImperfections/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation Imperfactions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Discrete Time Signal Processing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Discrete Time Signal Processing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/FT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CTFT, DTFT, DFT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/dft_fft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DFT and FFT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/circ_conv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Circular Convolution
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/filters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Filters (FIR/IIR,Polyphase)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sampling Theorem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      Definition:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parameter-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameter Table
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Points
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="link-budget">Link Budget:</h1>
+<h2 id="definition">Definition:</h2>
+<p>A <strong><em>link budget</em></strong> is an accounting of all the gains and losses from the transmitter, through the medium (free space, cables, etc.), to the receiver in a communications system. It determines if the received signal is strong enough for reliable communication.</p>
+<div class="arithmatex">\[
+P_{RX} = P_{TX} + G_{TX} + G_{RX} - L_{P} - L_{TX} - L_{RX} - L_{M}
+\]</div>
+<h2 id="parameter-table">Parameter Table</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Name</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(P_{RX}\)</span></td>
+<td>Received Power</td>
+<td>Power at the receiver input</td>
+<td>dBm / dBW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(P_{TX}\)</span></td>
+<td>Transmitted Power</td>
+<td>Power at the transmitter output</td>
+<td>dBm / dBW</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(G_{TX}\)</span></td>
+<td>Transmitter Antenna Gain</td>
+<td>Gain of transmitting antenna</td>
+<td>dBi</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(G_{RX}\)</span></td>
+<td>Receiver Antenna Gain</td>
+<td>Gain of receiving antenna</td>
+<td>dBi</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(L_{P}\)</span></td>
+<td>Path Loss</td>
+<td>Free space or other path loss</td>
+<td>dB</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(L_{TX}\)</span></td>
+<td>Transmitter Losses</td>
+<td>Losses before the transmit antenna (cables, etc.)</td>
+<td>dB</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(L_{RX}\)</span></td>
+<td>Receiver Losses</td>
+<td>Losses after the receive antenna (cables, etc.)</td>
+<td>dB</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(L_{M}\)</span></td>
+<td>Miscellaneous Losses</td>
+<td>Other losses (fade margin, polarization, etc.)</td>
+<td>dB</td>
+</tr>
+</tbody>
+</table>
+<h2 id="key-points">Key Points</h2>
+<ul>
+<li>All terms are in dB (logarithmic scale) for easy addition/subtraction.</li>
+<li>Path loss is typically the largest single loss.</li>
+<li>Link budget ensures that the received power <span class="arithmatex">\((P_{RX})\)</span> exceeds the receiver sensitivity for reliable communication.</li>
+</ul>
+<h1 id="receiver-sensitivity">Receiver Sensitivity:</h1>
+<h2 id="definition_1">Definition:</h2>
+<p><strong><em>Receiver Sensitivity</em></strong> is the <strong><em>minimum input signal power</em></strong> that a receiver can detect with acceptable quality (i.e., with a given bit error rate, SNR, or other performance metric).</p>
+<div class="arithmatex">\[
+P_{sens} = -174 + 10 \log_{10}(B) + NF + SNR_{min}
+\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(P_{sens}\)</span>: Receiver Sensitivity (in dBm)</li>
+<li><span class="arithmatex">\(B\)</span>: Bandwidth (Hz)</li>
+<li><span class="arithmatex">\(<span class="arithmatex">\(NF\)</span>\)</span>: Receiver Noise Figure (dB)</li>
+<li><span class="arithmatex">\(SNR_{min}\)</span>: Minimum required Signal-to-Noise Ratio (dB)</li>
+</ul>
+<p>-174 dBm/Hz is the thermal noise power density at room temperature (<span class="arithmatex">\(kT\)</span> at <span class="arithmatex">\(T=290\)</span>K).</p>
+<h2 id="parameter-table-receiver-sensitivity">Parameter Table (Receiver Sensitivity)</h2>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Name</th>
+<th>Description</th>
+<th>Units</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(P_{sens}\)</span></td>
+<td>Receiver Sensitivity</td>
+<td>Minimum detectable power</td>
+<td>dBm</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(B\)</span></td>
+<td>Bandwidth</td>
+<td>Receiver bandwidth</td>
+<td>Hz</td>
+</tr>
+<tr>
+<td>NF</td>
+<td>Noise Figure</td>
+<td>Receiver noise figure</td>
+<td>dB</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(SNR_{min}\)</span></td>
+<td>Minimum SNR Required</td>
+<td>For desired performance (e.g., BER)</td>
+<td>dB</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> <span class="arithmatex">\(k\)</span> (Boltzmann's constant) and <span class="arithmatex">\(T\)</span> (Temperature) are already included in the -174 dBm/Hz term for standard calculations at room temperature.</p>
+<h1 id="noise-figure-and-noise-factor">Noise Figure and Noise Factor</h1>
+<p><strong>Noise Figure (NF)</strong> quantifies how much additional noise a receiver or component adds to the signal, relative to an ideal (noise-free) system.</p>
+<ul>
+<li>It describes the <strong>degradation of the Signal-to-Noise Ratio (SNR)</strong> as the signal passes through a device.</li>
+<li>Lower NF means a better receiver (adds less noise).</li>
+</ul>
+<hr />
+<ul>
+<li><strong>Noise Factor (<span class="arithmatex">\(F\)</span>)</strong> is the <strong>linear ratio</strong> (unitless):</li>
+</ul>
+<p>$$
+  F = \frac{SNR_{in}}{SNR_{out}}
+  $$
+* <strong>Noise Figure (<span class="arithmatex">\(NF\)</span>)</strong> is the <strong>decibel (dB) form</strong> of Noise Factor:</p>
+<p>$$
+  NF = 10 \log_{10}(F)
+  $$</p>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(NF\)</span>: Noise Figure (dB)</li>
+<li><span class="arithmatex">\(SNR_{in}\)</span>: Signal-to-Noise Ratio at the input</li>
+<li><span class="arithmatex">\(SNR_{out}\)</span>: Signal-to-Noise Ratio at the output</li>
+</ul>
+<hr />
+<h2 id="parameter-table-noise-figure-noise-factor">Parameter Table (Noise Figure &amp; Noise Factor)</h2>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Symbol</th>
+<th>Definition</th>
+<th>Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Noise Figure</td>
+<td><span class="arithmatex">\(NF\)</span></td>
+<td><span class="arithmatex">\(NF = 10 \log_{10}(F)\)</span></td>
+<td>dB</td>
+</tr>
+<tr>
+<td>Noise Factor</td>
+<td><span class="arithmatex">\(F\)</span></td>
+<td><span class="arithmatex">\(F = SNR_{in} / SNR_{out}\)</span></td>
+<td>Unitless</td>
+</tr>
+<tr>
+<td>Input SNR</td>
+<td><span class="arithmatex">\(SNR_{in}\)</span></td>
+<td>Signal-to-noise ratio at input</td>
+<td>dB</td>
+</tr>
+<tr>
+<td>Output SNR</td>
+<td><span class="arithmatex">\(SNR_{out}\)</span></td>
+<td>Signal-to-noise ratio at output</td>
+<td>dB</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="key-points_1">Key Points</h3>
+<ul>
+<li><strong>NF</strong> and <strong>F</strong> both describe noise performance: <strong>NF</strong> (in dB) is more common in datasheets.</li>
+<li><strong>Lower NF/F means better receiver quality</strong>—less noise is added by the system.</li>
+<li><strong>NF</strong> is critical in receiver sensitivity calculations and overall link performance.</li>
+</ul>
+<h1 id="multistage-cascaded-amplifier-noise-figure-quick-reference">Multistage (Cascaded) Amplifier Noise Figure – Quick Reference</h1>
+<hr />
+<ul>
+<li>
+<p><strong>Friis Formula for Cascaded Noise:</strong></p>
+</li>
+<li>
+<p>For N amplifier stages in cascade:</p>
+<div class="arithmatex">\[
+F_{\text{total}} = F_1 + \frac{F_2 - 1}{G_1} + \frac{F_3 - 1}{G_1 G_2} + \cdots + \frac{F_N - 1}{G_1 G_2 \cdots G_{N-1}}
+\]</div>
+<ul>
+<li><span class="arithmatex">\(F_i\)</span>: Noise factor (linear, not dB) of the i-th stage</li>
+<li><span class="arithmatex">\(G_i\)</span>: Power gain (linear, not dB) of the i-th stage</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Points:</strong></p>
+</li>
+<li>
+<p><strong>First stage</strong> dominates total noise performance—maximize its gain and minimize its noise figure for best results.</p>
+</li>
+<li>Later stages contribute less noise if early stage gains are high.</li>
+<li>
+<p>Always use <strong>linear values</strong> for noise and gain in the Friis equation.</p>
+</li>
+<li>
+<p><strong>Example Calculation:</strong></p>
+</li>
+<li>
+<p>Given three stages:</p>
+<ul>
+<li>Noise figures: 3 dB, 5 dB, 7 dB</li>
+<li>Gains: 10 dB, 8 dB</li>
+<li>
+<p><strong>Step 1:</strong> Convert to linear:</p>
+</li>
+<li>
+<p><span class="arithmatex">\(F_1 = 10^{3/10} = 2\)</span></p>
+</li>
+<li><span class="arithmatex">\(F_2 = 10^{5/10} = 3.16\)</span></li>
+<li><span class="arithmatex">\(F_3 = 10^{7/10} = 5.01\)</span></li>
+<li><span class="arithmatex">\(G_1 = 10^{10/10} = 10\)</span></li>
+<li><span class="arithmatex">\(G_2 = 10^{8/10} = 6.31\)</span></li>
+<li>
+<p><strong>Step 2:</strong> Plug into Friis:</p>
+</li>
+<li>
+<p><span class="arithmatex">\(F_{\text{total}} = 2 + \frac{3.16 - 1}{10} + \frac{5.01 - 1}{10 \times 6.31} = 2 + 0.216 + 0.0635 = 2.28\)</span></p>
+</li>
+<li>
+<p><strong>Step 3:</strong> Back to dB:</p>
+</li>
+<li>
+<p><span class="arithmatex">\(NF_{\text{total}} = 10 \log_{10}(2.28) \approx 3.58\,\text{dB}\)</span></p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Summary Table:</strong></p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Noise Figure (dB)</th>
+<th>Noise Factor</th>
+<th>Gain (dB)</th>
+<th>Gain (linear)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>2.00</td>
+<td>10</td>
+<td>10.00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>5</td>
+<td>3.16</td>
+<td>8</td>
+<td>6.31</td>
+</tr>
+<tr>
+<td>3</td>
+<td>7</td>
+<td>5.01</td>
+<td>–</td>
+<td>–</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>Key Tip:</strong></p>
+<ul>
+<li>Focus on minimizing the noise figure and maximizing the gain of the <strong>first stage</strong> in a cascaded amplifier chain for best overall system noise performance.</li>
+</ul>
+<hr />
+<hr />
+<p>_Last updated: June 06, 2025</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

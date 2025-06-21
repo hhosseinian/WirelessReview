@@ -1,0 +1,1163 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../Channel_Equalization/">
+      
+      
+        <link rel="next" href="../../dsp/FT/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Implementation Imperfactions - Wireless Review</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../styles/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#measurement-and-compensation-of-txrx-imperfections" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Wireless Review" class="md-header__button md-logo" aria-label="Wireless Review" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Wireless Review
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Implementation Imperfactions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Wireless Review" class="md-nav__button md-logo" aria-label="Wireless Review" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Wireless Review
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quiz.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quiz
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Wireless Communications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Wireless Communications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Maxwells_equations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Maxwell's Equation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fading_types_summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fading Channel Types
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shannon/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Shannon Capacity
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../link_budget/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Link Budget
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modulation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Modulation Techniques
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multiusermimodetectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MU-MIMO Detectors
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ofdm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OFDM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Waterfilling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Waterfilling Concept
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ChannelEstimation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OFDM Channel Estimation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Channel_Equalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OFDM Channel Equalization
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Implementation Imperfactions
+    
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Discrete Time Signal Processing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Discrete Time Signal Processing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/FT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    CTFT, DTFT, DFT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/dft_fft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DFT and FFT
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/circ_conv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Circular Convolution
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/filters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Filters (FIR/IIR,Polyphase)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../dsp/sampling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sampling Theorem
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="measurement-and-compensation-of-txrx-imperfections">Measurement and Compensation of Tx/Rx Imperfections</h1>
+<table>
+<thead>
+<tr>
+<th>Imperfection</th>
+<th>Measurement Method</th>
+<th>Compensation Technique</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Power amplifier non-linearity</td>
+<td>Spectrum analyzer (ACLR), EVM</td>
+<td>Digital predistortion, PA back-off</td>
+</tr>
+<tr>
+<td>Phase noise</td>
+<td>Phase noise analyzer</td>
+<td>High-quality oscillator, PLL filtering</td>
+</tr>
+<tr>
+<td>IQ imbalance (Tx)</td>
+<td>VSA, image rejection</td>
+<td>IQ correction algorithms</td>
+</tr>
+<tr>
+<td>Frequency offset</td>
+<td>Pilot-based frequency error estimation</td>
+<td>CFO estimation and correction</td>
+</tr>
+<tr>
+<td>Quantization noise</td>
+<td>SNR estimation, simulation</td>
+<td>Higher bit-depth, dithering</td>
+</tr>
+<tr>
+<td>Clock jitter</td>
+<td>Jitter analyzer, oscilloscope TIE</td>
+<td>Low-jitter clocks, PLL cleanup</td>
+</tr>
+<tr>
+<td>Signal clipping</td>
+<td>Digital scope, EVM analysis</td>
+<td>AGC, PAPR reduction</td>
+</tr>
+<tr>
+<td>Digital predistortion errors</td>
+<td>Compare PA input/output models</td>
+<td>Adaptive DPD feedback</td>
+</tr>
+<tr>
+<td>LNA non-linearity</td>
+<td>Two-tone test, IP3 measurement</td>
+<td>High-linearity LNA, operate linearly</td>
+</tr>
+<tr>
+<td>Mixer leakage</td>
+<td>Spectrum analyzer (LO spur detection)</td>
+<td>Improve LO isolation and layout</td>
+</tr>
+<tr>
+<td>IQ imbalance (Rx)</td>
+<td>Image rejection, VSA</td>
+<td>Digital baseband correction</td>
+</tr>
+<tr>
+<td>Thermal noise</td>
+<td>Noise figure analyzer</td>
+<td>Low-noise components, shielding</td>
+</tr>
+<tr>
+<td>ADC quantization</td>
+<td>SNR, ENOB measurement</td>
+<td>Higher-resolution ADCs, noise shaping</td>
+</tr>
+<tr>
+<td>Timing recovery errors</td>
+<td>Eye diagram, timing error analysis</td>
+<td>Timing recovery loops (e.g., Gardner)</td>
+</tr>
+<tr>
+<td>Channel estimation inaccuracies</td>
+<td>Pilot sequence error analysis</td>
+<td>Adaptive estimation and interpolation</td>
+</tr>
+<tr>
+<td>Equalization artifacts</td>
+<td>EVM/BER analysis</td>
+<td>Robust equalizers (MMSE, DFE)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="communication-system-measurement-parameters-and-acceptable-limits">Communication System Measurement Parameters and Acceptable Limits</h1>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Definition</th>
+<th>Typical Max Acceptable Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>EVM (Error Vector Magnitude)</strong></td>
+<td>Measures modulation accuracy; deviation of received symbols from ideal</td>
+<td>1.75% to 8% (depends on modulation &amp; standard)</td>
+</tr>
+<tr>
+<td><strong>BER (Bit Error Rate)</strong></td>
+<td>Fraction of bits received incorrectly</td>
+<td>1e-5 to 1e-3 (depends on FEC &amp; system)</td>
+</tr>
+<tr>
+<td><strong>SNR (Signal-to-Noise Ratio)</strong></td>
+<td>Ratio of signal power to noise power</td>
+<td>≥ 20 dB (higher for higher modulations)</td>
+</tr>
+<tr>
+<td><strong>SINR</strong></td>
+<td>SNR including interference from other signals</td>
+<td>≥ 18 dB (LTE min requirement)</td>
+</tr>
+<tr>
+<td><strong>ACLR (Adjacent Channel Leakage Ratio)</strong></td>
+<td>Signal leakage into adjacent frequency bands</td>
+<td>≤ -30 dBc (can vary with channel spacing)</td>
+</tr>
+<tr>
+<td><strong>SEM (Spectrum Emission Mask)</strong></td>
+<td>Limits power emitted outside intended frequency band</td>
+<td>Must meet standard-specific spectral mask</td>
+</tr>
+<tr>
+<td><strong>TX Power / Output Power</strong></td>
+<td>Power level of transmitted signal</td>
+<td>+23 to +30 dBm (varies by system)</td>
+</tr>
+<tr>
+<td><strong>OBW (Occupied Bandwidth)</strong></td>
+<td>Bandwidth containing 99% of transmitted signal power</td>
+<td>99% of power in allocated channel</td>
+</tr>
+<tr>
+<td><strong>Frequency Error</strong></td>
+<td>Offset between actual and expected carrier frequency</td>
+<td>±0.1 to ±0.5 ppm (standard-dependent)</td>
+</tr>
+<tr>
+<td><strong>Phase Noise</strong></td>
+<td>Frequency stability of local oscillator</td>
+<td>&lt; -100 dBc/Hz @ 1 MHz offset (typical)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="error-vector-magnitude-evm">Error Vector Magnitude (EVM)</h1>
+<p><strong>EVM</strong> quantifies the deviation of received symbols from ideal constellation points, reflecting overall modulation accuracy.</p>
+<h2 id="definition-and-formats">Definition and Formats</h2>
+<table>
+<thead>
+<tr>
+<th>Form</th>
+<th>Equation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normalized</td>
+<td>( \text{EVM}_{\text{RMS}} = \sqrt{ \frac{ \sum</td>
+</tr>
+<tr>
+<td>Percentage</td>
+<td><span class="arithmatex">\( \text{EVM}(\%) = \text{EVM}_{\text{RMS}} \times 100 \)</span></td>
+</tr>
+<tr>
+<td>dB</td>
+<td><span class="arithmatex">\( \text{EVM}_{\text{dB}} = 20 \cdot \log_{10}(\text{EVM}_{\text{RMS}}) \)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Where:
+- <span class="arithmatex">\( S_i \)</span>: Ideal symbol
+- <span class="arithmatex">\( R_i \)</span>: Received symbol
+- <span class="arithmatex">\( N \)</span>: Number of symbols</p>
+<hr />
+<h2 id="visual-concept">Visual Concept</h2>
+<p>In I/Q constellation:
+- <strong>Ideal point</strong>: expected symbol position<br />
+- <strong>Measured point</strong>: actual received position<br />
+- <strong>Error vector</strong>: <span class="arithmatex">\( \text{EVM}_i = |S_i - R_i| \)</span></p>
+<hr />
+<h2 id="interpretation">Interpretation</h2>
+<table>
+<thead>
+<tr>
+<th>EVM Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Low (e.g. &lt;3%)</td>
+<td>High signal quality, minimal distortion</td>
+</tr>
+<tr>
+<td>High</td>
+<td>Indicates noise, non-linearities, or RF impairments</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="why-evm-matters-in-standards">Why EVM Matters in Standards</h1>
+<h2 id="1-standard-compliance">1. Standard Compliance</h2>
+<table>
+<thead>
+<tr>
+<th>Standard</th>
+<th>Modulation</th>
+<th>EVM Limit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LTE</td>
+<td>64-QAM</td>
+<td>≤ 8%</td>
+</tr>
+<tr>
+<td>5G NR</td>
+<td>256-QAM</td>
+<td>≤ 3.5%</td>
+</tr>
+<tr>
+<td>Wi-Fi 6</td>
+<td>1024-QAM</td>
+<td>≤ 1.75%</td>
+</tr>
+<tr>
+<td>Bluetooth</td>
+<td>GFSK</td>
+<td>≤ 20%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Devices must meet EVM limits to ensure certification and interoperability.</li>
+</ul>
+<h2 id="2-captures-key-impairments">2. Captures Key Impairments</h2>
+<p>EVM reflects combined effects of:
+- IQ imbalance
+- Phase noise
+- PA non-linearity
+- Frequency offset
+- ADC/DAC resolution
+- Noise floor</p>
+<h2 id="3-correlates-with-other-metrics">3. Correlates with Other Metrics</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Relationship with EVM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BER</td>
+<td>↑ EVM → ↑ Bit Error Rate</td>
+</tr>
+<tr>
+<td>SNR</td>
+<td>↑ EVM → ↓ Signal-to-Noise Ratio</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-used-in-testing-and-manufacturing">4. Used in Testing and Manufacturing</h2>
+<ul>
+<li>Fast diagnostic tool for verifying signal integrity</li>
+<li>Supports calibration and real-time tuning in production lines</li>
+</ul>
+<hr />
+<h2 id="evm-measurement">EVM Measurement</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Tools/Environment</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vector Signal Analyzer</strong></td>
+<td>Measures EVM by demodulating the signal and comparing to ideal constellation</td>
+<td>Keysight, R\&amp;S, NI VSA</td>
+<td>Industry standard; fast and accurate</td>
+</tr>
+<tr>
+<td><strong>Software/DSP Tools</strong></td>
+<td>Use MATLAB, Python, or other DSP tools to calculate EVM from captured IQ data</td>
+<td>MATLAB, Python (NumPy), Simulink</td>
+<td>Requires access to ideal symbol mapping and synchronized samples</td>
+</tr>
+<tr>
+<td><strong>Built-in in SDR Tools</strong></td>
+<td>SDR tools (e.g., GNU Radio, LabVIEW) may have EVM blocks or add-ons</td>
+<td>SDR test platforms</td>
+<td>Real-time or post-processing support</td>
+</tr>
+<tr>
+<td><strong>Simulation-Based</strong></td>
+<td>Direct computation using known ideal and simulated received symbols</td>
+<td>MATLAB, SystemVue, Simulink</td>
+<td>Ideal for design/testbench validation</td>
+</tr>
+</tbody>
+</table>
+<h2 id="summary">Summary</h2>
+<blockquote>
+<p><strong>EVM is a comprehensive, fast, and standard-compliant metric to evaluate modulation accuracy and system integrity in modern digital communication systems.</strong></p>
+</blockquote>
+<h1 id="measuring-signal-to-noise-ratio-snr">Measuring Signal-to-Noise Ratio (SNR)</h1>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Tools Used</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Spectrum Analyzer</strong></td>
+<td>Measure peak signal vs. noise floor near carrier</td>
+<td>Spectrum Analyzer</td>
+<td>Set correct resolution bandwidth (RBW); used in RF systems</td>
+</tr>
+<tr>
+<td><strong>Digital Sample Analysis</strong></td>
+<td>Compute power of signal and noise using ADC samples</td>
+<td>ADC, DSP software, MATLAB/Python</td>
+<td>Must isolate signal and noise samples; accurate in simulations</td>
+</tr>
+<tr>
+<td><strong>VSA / Oscilloscope</strong></td>
+<td>Use built-in SNR function based on demodulated or raw waveform</td>
+<td>Vector Signal Analyzer, Oscilloscope</td>
+<td>Fast and standardized; supports modulated signals</td>
+</tr>
+<tr>
+<td><strong>EVM-Based Estimation</strong></td>
+<td>Approximate SNR from EVM when noise is dominant</td>
+<td>VSA or EVM measurement</td>
+<td>Valid if distortion is negligible: <code>SNR ≈ -20·log10(EVM_RMS)</code></td>
+</tr>
+<tr>
+<td><strong>Baseband Simulation</strong></td>
+<td>Extract signal and noise power from known model or testbench</td>
+<td>MATLAB, Simulink, etc.</td>
+<td>Most controlled; ideal for design phase</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>_Last updated: June 06, 2025</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
