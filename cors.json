@@ -1,7 +1,8 @@
 [
   {
-    "origin": ["*"],  // or restrict to your domain like ["https://hhosseinian.github.io"]
+    "origin": ["https://hhosseinian.github.io"],
     "method": ["GET"],
-    "maxAgeSeconds": 3600
+    "maxAgeSeconds": 3600,
+    "responseHeader": ["Content-Type"]
   }
 ]
