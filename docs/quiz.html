@@ -1,63 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
   <title>Wireless Quiz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 1rem; background: #f9f9f9; }
-    h1 { text-align: center; }
-    .question { margin: 1.5rem 0; padding: 1rem; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .option { display: block; margin: 0.5rem 0; padding: 0.5rem; border: 1px solid #ccc; border-radius: 5px; background: #f1f1f1; cursor: pointer; }
-    .correct { background: #c8f7c5; border-color: #2ecc71; }
-    .wrong { background: #f7c5c5; border-color: #e74c3c; }
-    .explanation { margin-top: 0.5rem; font-style: italic; color: #555; }
+    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 1rem; }
+    .question { margin-bottom: 2rem; }
+    .option { margin: 0.5rem 0; display: block; }
+    .correct { color: green; font-weight: bold; }
+    .wrong { color: red; font-weight: bold; }
+    .loading { color: gray; font-style: italic; }
   </style>
 </head>
 <body>
   <h1>Wireless Quiz</h1>
-  <div id="quiz-container">Loading quiz...</div>
+  <div id="quiz-container" class="loading">Loading quiz...</div>
 
   <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>
 
   <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBqRQ7_vjmuJgeZ7nE-8m_E8geHEFlvw_0",
-    authDomain: "wirelessreview-7bdd0.firebaseapp.com",
-    projectId: "wirelessreview-7bdd0",
-    storageBucket: "wirelessreview-7bdd0.appspot.com",
-    messagingSenderId: "502460506074",
-    appId: "1:502460506074:web:e7d8935f219b4239f82ae3"
-  };
+    // ✅ Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqRQ7_vjmuJgeZ7nE-8m_E8geHEFlvw_0",
+      authDomain: "wirelessreview-7bdd0.firebaseapp.com",
+      projectId: "wirelessreview-7bdd0",
+      storageBucket: "wirelessreview-7bdd0.firebasestorage.app",
+      messagingSenderId: "502460506074",
+      appId: "1:502460506074:web:e7d8935f219b4239f82ae3"
+    };
 
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const storage = firebase.storage();
-  const container = document.getElementById("quiz-container");
+    // ✅ Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const storage = firebase.storage();
+    const container = document.getElementById("quiz-container");
 
-  auth.signInAnonymously().then(() => {
-    console.log("✅ Authenticated anonymously");
-    return storage.ref("wireless/wireless_questions_bank.json").getDownloadURL();
-  }).then(url => {
-    console.log("✅ Got download URL:", url);
-    return fetch(url);
-  }).then(res => {
-    if (!res.ok) {
-      throw new Error("❌ HTTP error " + res.status);
+    // ✅ Authenticate Anonymously and Fetch JSON
+    auth.signInAnonymously().then(() => {
+      console.log("✅ Authenticated anonymously");
+      return storage.ref("wireless/wireless_questions_bank.json").getDownloadURL();
+    }).then(url => {
+      console.log("✅ Download URL:", url);
+      return fetch(url);
+    }).then(res => {
+      if (!res.ok) throw new Error("Fetch failed");
+      return res.json();
+    }).then(data => {
+      console.log("✅ Loaded JSON:", data);
+      renderQuiz([data]); // Or data if it's an array of questions
+    }).catch(err => {
+      console.error("❌ Error loading quiz:", err);
+      container.innerHTML = "<span class='wrong'>❌ Error loading quiz.</span>";
+    });
+
+    // ✅ Render Quiz
+    function renderQuiz(questions) {
+      container.innerHTML = "";
+      questions.forEach((q, index) => {
+        const div = document.createElement("div");
+        div.className = "question";
+        div.innerHTML = `<strong>Q${index + 1}: ${q.question}</strong><br/>`;
+
+        q.options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.innerText = opt;
+          btn.className = "option";
+          btn.onclick = () => {
+            if (i === q.answer) {
+              btn.classList.add("correct");
+              btn.innerText += " ✔";
+            } else {
+              btn.classList.add("wrong");
+              btn.innerText += " ✖";
+            }
+            [...div.querySelectorAll("button")].forEach(b => b.disabled = true);
+            const exp = document.createElement("div");
+            exp.innerHTML = `<em>${q.explanation}</em>`;
+            div.appendChild(exp);
+          };
+          div.appendChild(btn);
+        });
+
+        container.appendChild(div);
+      });
     }
-    return res.json();
-  }).then(data => {
-    console.log("✅ Loaded JSON:", data);
-    container.innerHTML = "Quiz loaded!";
-    // rendering can go here
-  }).catch(err => {
-    container.innerHTML = "❌ Error loading quiz.";
-    console.error("❌ Full error trace:", err);
-  });
-</script>
-
+  </script>
 </body>
 </html>
